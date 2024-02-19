@@ -1,10 +1,10 @@
-﻿using AirStatusesApp.App.Dto;
-using AirStatusesApp.App.Helpers;
+﻿using AirStatusesApp.App.Helpers;
 using AirStatusesApp.App.Users.CreateUser;
 using AirStatusesApp.App.Users.Login;
 using AirStatusesApp.App.Users.Queries;
 using AirStatusesApp.App.Users.SetUserRole;
 using AirStatusesData.Services.Dto;
+using AirStatusesInfrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
@@ -86,11 +86,11 @@ namespace AirStatusesAPI.Controllers
             var token = await _mediator.Send(credentialDto);
             if (string.IsNullOrEmpty(token.Token))
             {
-                _logger.Warning("Failed to log in user");
+                _logger.Warning($"Failed to log in user: {credentialDto.UserName}");
                 return BadRequest();
             }
 
-            _logger.Information("User logged in successfully");
+            _logger.Information($"User logged in successfully: {credentialDto.UserName}");
             return Ok(token);
         }
 

@@ -4,8 +4,12 @@ using MediatR;
 
 namespace AirStatusesApp.App.Roles.CreateRole
 {
+    /// <summary>
+    /// Обработчик команды создания роли.
+    /// </summary>
     public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, Role>
     {
+        // Сервис для работы с данными о ролях.
         private readonly IRolesDataSevice _rolesDataSevice;
 
         /// <summary>
@@ -22,10 +26,12 @@ namespace AirStatusesApp.App.Roles.CreateRole
         /// </summary>
         /// <param name="request">Команда создания роли.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Созданная роль.</returns>
+        /// <returns>Возвращает созданную роль.</returns>
         public async Task<Role> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
+            // Создание роли с использованием сервиса данных ролей.
             return await _rolesDataSevice.CreateRoleAsync(request.RoleCode);
         }
     }
 }
+

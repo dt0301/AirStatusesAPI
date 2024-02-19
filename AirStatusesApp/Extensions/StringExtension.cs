@@ -4,8 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace AirStatusesApp.Extensions
 {
+    /// <summary>
+    /// Статический класс расширений для типа string.
+    /// </summary>
     public static class StringExtension
     {
+        /// <summary>
+        /// Преобразует строку в формат snake_case.
+        /// </summary>
+        /// <param name="input">Входная строка.</param>
+        /// <returns>Строка в формате snake_case.</returns>
         public static string ToSnakeCase(this string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -17,6 +25,11 @@ namespace AirStatusesApp.Extensions
             return startUnderscores + Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1_$2").ToLower();
         }
 
+        /// <summary>
+        /// Преобразует строку в хеш SHA256.
+        /// </summary>
+        /// <param name="input">Входная строка.</param>
+        /// <returns>Хеш SHA256 входной строки.</returns>
         public static string ToSha256(this string input)
         {
             using var sha256 = SHA256.Create();
@@ -25,6 +38,11 @@ namespace AirStatusesApp.Extensions
             return GetStringFromHash(hash);
         }
 
+        /// <summary>
+        /// Преобразует строку в хеш SHA512.
+        /// </summary>
+        /// <param name="input">Входная строка.</param>
+        /// <returns>Хеш SHA512 входной строки.</returns>
         public static string ToSha512(this string input)
         {
             using var sha512 = SHA512.Create();
@@ -33,6 +51,11 @@ namespace AirStatusesApp.Extensions
             return GetStringFromHash(hash);
         }
 
+        /// <summary>
+        /// Преобразует строку в хеш MD5.
+        /// </summary>
+        /// <param name="input">Входная строка.</param>
+        /// <returns>Хеш MD5 входной строки.</returns>
         public static string ToMd5(this string input)
         {
             using var md5 = MD5.Create();
@@ -41,6 +64,11 @@ namespace AirStatusesApp.Extensions
             return GetStringFromHash(hash);
         }
 
+        /// <summary>
+        /// Преобразует байтовый массив хеша в строку.
+        /// </summary>
+        /// <param name="hash">Байтовый массив хеша.</param>
+        /// <returns>Строковое представление хеша.</returns>
         private static string GetStringFromHash(byte[] hash)
         {
             var result = new StringBuilder();
@@ -51,12 +79,22 @@ namespace AirStatusesApp.Extensions
             return result.ToString();
         }
 
+        /// <summary>
+        /// Проверяет, является ли символ кириллицей.
+        /// </summary>
+        /// <param name="s">Символ для проверки.</param>
+        /// <returns>True, если символ является кириллицей. Иначе - false.</returns>
         private static readonly Regex regexCyrlics = new Regex(@"\p{IsCyrillic}");
         public static bool IsCyrylic(this char s)
         {
             return regexCyrlics.IsMatch(s.ToString());
         }
 
+        /// <summary>
+        /// Проверяет, является ли строка адресом электронной почты.
+        /// </summary>
+        /// <param name="input">Строка для проверки.</param>
+        /// <returns>True, если строка является адресом электронной почты. Иначе - false.</returns>
         private static readonly Regex regexMail = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
         public static bool IsMail(this string input)
         {

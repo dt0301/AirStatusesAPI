@@ -3,7 +3,6 @@ using AirStatusesApp.App.Flights.Queries;
 using AirStatusesApp.App.Helpers;
 using AirStatusesData;
 using AirStatusesData.Services;
-using AirStatusesInfrastructure.Interfaces;
 using AirStatusesInfrastructure.RedisService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -15,9 +14,9 @@ using Serilog;
 using Serilog.Formatting.Compact;
 using StackExchange.Redis;
 using System.Text;
+using AirStatusesInfrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Настройка Serilog
 Log.Logger = new LoggerConfiguration()
@@ -72,6 +71,8 @@ builder.Services.AddTransient<RoleSeeder>();
 builder.Services.AddTransient<UserSeeder>();
 builder.Services.AddTransient<FlightSeeder>();
 
+
+builder.Services.AddTransient<IJwtGenerator, JwtGenerator>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<AuthenticatedUserProvider>();
 builder.Services.AddTransient<EncryptionProvider>();

@@ -1,0 +1,394 @@
+[
+    {
+        "Id": 1,
+        "Origin": "Астана",
+        "Destination": "Москва",
+        "Departure": "2024-02-13T10:00:00+03:00",
+        "Arrival": "2024-02-13T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 2,
+        "Origin": "Астана",
+        "Destination": "Санкт-Петербург",
+        "Departure": "2024-02-14T09:00:00+03:00",
+        "Arrival": "2024-02-14T13:20:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 3,
+        "Origin": "Астана",
+        "Destination": "Екатеринбург",
+        "Departure": "2024-02-15T12:00:00+03:00",
+        "Arrival": "2024-02-15T16:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 4,
+        "Origin": "Астана",
+        "Destination": "Шымкент",
+        "Departure": "2024-02-16T15:00:00+03:00",
+        "Arrival": "2024-02-16T16:40:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 5,
+        "Origin": "Астана",
+        "Destination": "Актау",
+        "Departure": "2024-02-17T17:00:00+03:00",
+        "Arrival": "2024-02-17T19:50:00+03:00",
+        "Status": "InTime"
+    },
+	{
+        "Id": 6,
+        "Origin": "Астана",
+        "Destination": "Атырау",
+        "Departure": "2024-02-18T10:00:00+03:00",
+        "Arrival": "2024-02-18T12:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 7,
+        "Origin": "Астана",
+        "Destination": "Дубай",
+        "Departure": "2024-02-19T14:00:00+03:00",
+        "Arrival": "2024-02-19T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 8,
+        "Origin": "Астана",
+        "Destination": "Москва Шереметьево",
+        "Departure": "2024-02-20T09:00:00+03:00",
+        "Arrival": "2024-02-20T12:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 9,
+        "Origin": "Астана",
+        "Destination": "Стамбул",
+        "Departure": "2024-02-21T15:00:00+03:00",
+        "Arrival": "2024-02-21T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 10,
+        "Origin": "Астана",
+        "Destination": "Актобе (Актюбинск)",
+        "Departure": "2024-02-22T10:00:00+03:00",
+        "Arrival": "2024-02-22T12:00:00+03:00",
+        "Status": "InTime"
+    },
+	{
+        "Id": 11,
+        "Origin": "Астана",
+        "Destination": "Усть-Каменогорск (Оскемен)",
+        "Departure": "2024-02-23T10:00:00+03:00",
+        "Arrival": "2024-02-23T12:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 12,
+        "Origin": "Астана",
+        "Destination": "Ташкент",
+        "Departure": "2024-02-24T14:00:00+03:00",
+        "Arrival": "2024-02-24T16:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 13,
+        "Origin": "Астана",
+        "Destination": "Доха",
+        "Departure": "2024-02-25T09:00:00+03:00",
+        "Arrival": "2024-02-25T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 14,
+        "Origin": "Астана",
+        "Destination": "Уральск (Орал)",
+        "Departure": "2024-02-26T15:00:00+03:00",
+        "Arrival": "2024-02-26T17:40:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 15,
+        "Origin": "Астана",
+        "Destination": "Нью-Дели",
+        "Departure": "2024-02-27T17:00:00+03:00",
+        "Arrival": "2024-02-27T23:50:00+03:00",
+        "Status": "InTime"
+    },
+	{
+        "Id": 16,
+        "Origin": "Астана",
+        "Destination": "Бишкек",
+        "Departure": "2024-02-28T10:00:00+03:00",
+        "Arrival": "2024-02-28T12:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 17,
+        "Origin": "Астана",
+        "Destination": "Алматы",
+        "Departure": "2024-02-29T14:00:00+03:00",
+        "Arrival": "2024-02-29T15:40:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 18,
+        "Origin": "Астана",
+        "Destination": "Тбилиси",
+        "Departure": "2024-03-01T09:00:00+03:00",
+        "Arrival": "2024-03-01T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 19,
+        "Origin": "Астана",
+        "Destination": "Баку",
+        "Departure": "2024-03-02T15:00:00+03:00",
+        "Arrival": "2024-03-02T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 20,
+        "Origin": "Астана",
+        "Destination": "Ереван",
+        "Departure": "2024-03-03T10:00:00+03:00",
+        "Arrival": "2024-03-03T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 21,
+        "Origin": "Астана",
+        "Destination": "Минск",
+        "Departure": "2024-03-04T14:00:00+03:00",
+        "Arrival": "2024-03-04T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 22,
+        "Origin": "Астана",
+        "Destination": "Киев",
+        "Departure": "2024-03-05T09:00:00+03:00",
+        "Arrival": "2024-03-05T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 23,
+        "Origin": "Астана",
+        "Destination": "Варшава",
+        "Departure": "2024-03-06T15:00:00+03:00",
+        "Arrival": "2024-03-06T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 24,
+        "Origin": "Астана",
+        "Destination": "Прага",
+        "Departure": "2024-03-07T10:00:00+03:00",
+        "Arrival": "2024-03-07T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 25,
+        "Origin": "Астана",
+        "Destination": "Будапешт",
+        "Departure": "2024-03-08T14:00:00+03:00",
+        "Arrival": "2024-03-08T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 26,
+        "Origin": "Астана",
+        "Destination": "Вена",
+        "Departure": "2024-03-09T09:00:00+03:00",
+        "Arrival": "2024-03-09T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 27,
+        "Origin": "Астана",
+        "Destination": "Берлин",
+        "Departure": "2024-03-10T15:00:00+03:00",
+        "Arrival": "2024-03-10T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 28,
+        "Origin": "Астана",
+        "Destination": "Мюнхен",
+        "Departure": "2024-03-11T10:00:00+03:00",
+        "Arrival": "2024-03-11T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 29,
+        "Origin": "Астана",
+        "Destination": "Франкфурт",
+        "Departure": "2024-03-12T14:00:00+03:00",
+        "Arrival": "2024-03-12T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 30,
+        "Origin": "Астана",
+        "Destination": "Париж",
+        "Departure": "2024-03-13T09:00:00+03:00",
+        "Arrival": "2024-03-13T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 31,
+        "Origin": "Астана",
+        "Destination": "Лондон",
+        "Departure": "2024-03-14T15:00:00+03:00",
+        "Arrival": "2024-03-14T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 32,
+        "Origin": "Астана",
+        "Destination": "Мадрид",
+        "Departure": "2024-03-15T10:00:00+03:00",
+        "Arrival": "2024-03-15T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 33,
+        "Origin": "Астана",
+        "Destination": "Рим",
+        "Departure": "2024-03-16T14:00:00+03:00",
+        "Arrival": "2024-03-16T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 34,
+        "Origin": "Астана",
+        "Destination": "Афины",
+        "Departure": "2024-03-17T09:00:00+03:00",
+        "Arrival": "2024-03-17T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 35,
+        "Origin": "Астана",
+        "Destination": "Стокгольм",
+        "Departure": "2024-03-18T15:00:00+03:00",
+        "Arrival": "2024-03-18T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 36,
+        "Origin": "Астана",
+        "Destination": "Осло",
+        "Departure": "2024-03-19T10:00:00+03:00",
+        "Arrival": "2024-03-19T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 37,
+        "Origin": "Астана",
+        "Destination": "Копенгаген",
+        "Departure": "2024-03-20T14:00:00+03:00",
+        "Arrival": "2024-03-20T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 38,
+        "Origin": "Астана",
+        "Destination": "Хельсинки",
+        "Departure": "2024-03-21T09:00:00+03:00",
+        "Arrival": "2024-03-21T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 39,
+        "Origin": "Астана",
+        "Destination": "Таллин",
+        "Departure": "2024-03-22T15:00:00+03:00",
+        "Arrival": "2024-03-22T19:00:00+03:00",
+        "Status": "InTime"
+    },
+	{
+        "Id": 41,
+        "Origin": "Астана",
+        "Destination": "Вильнюс",
+        "Departure": "2024-03-23T10:00:00+03:00",
+        "Arrival": "2024-03-23T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 42,
+        "Origin": "Астана",
+        "Destination": "Минск",
+        "Departure": "2024-03-24T14:00:00+03:00",
+        "Arrival": "2024-03-24T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 43,
+        "Origin": "Астана",
+        "Destination": "Киев",
+        "Departure": "2024-03-25T09:00:00+03:00",
+        "Arrival": "2024-03-25T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 44,
+        "Origin": "Астана",
+        "Destination": "София",
+        "Departure": "2024-03-26T15:00:00+03:00",
+        "Arrival": "2024-03-26T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 45,
+        "Origin": "Астана",
+        "Destination": "Бухарест",
+        "Departure": "2024-03-27T10:00:00+03:00",
+        "Arrival": "2024-03-27T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 46,
+        "Origin": "Астана",
+        "Destination": "Белград",
+        "Departure": "2024-03-28T14:00:00+03:00",
+        "Arrival": "2024-03-28T18:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 47,
+        "Origin": "Астана",
+        "Destination": "Загреб",
+        "Departure": "2024-03-29T09:00:00+03:00",
+        "Arrival": "2024-03-29T13:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 48,
+        "Origin": "Астана",
+        "Destination": "Любляна",
+        "Departure": "2024-03-30T15:00:00+03:00",
+        "Arrival": "2024-03-30T19:00:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 49,
+        "Origin": "Астана",
+        "Destination": "Скопье",
+        "Departure": "2024-03-31T10:00:00+03:00",
+        "Arrival": "2024-03-31T14:30:00+03:00",
+        "Status": "InTime"
+    },
+    {
+        "Id": 50,
+        "Origin": "Астана",
+        "Destination": "Тирана",
+        "Departure": "2024-04-01T14:00:00+03:00",
+        "Arrival": "2024-04-01T18:00:00+03:00",
+        "Status": "InTime"
+    }
+]

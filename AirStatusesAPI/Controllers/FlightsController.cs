@@ -2,11 +2,9 @@
 using AirStatusesApp.App.Flights.Queries;
 using AirStatusesApp.App.Flights.UpdateFlight;
 using AirStatusesApp.App.Helpers;
-using AirStatusesDomain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-using Serilog;
 using ILogger = Serilog.ILogger;
 
 namespace AirStatusesAPI.Controllers
@@ -27,7 +25,8 @@ namespace AirStatusesAPI.Controllers
         /// <param name="mediator">Объект для обработки команд и запросов.</param>
         /// <param name="userProps">Объект для получения свойств пользователя.</param>
         /// <param name="logger">Объект для логирования.</param>
-        public FlightsController(IFligtsQuery flightQuery, IMediator mediator, IUserProps userProps, ILogger logger)
+        public FlightsController(IFligtsQuery flightQuery, IMediator mediator, 
+            IUserProps userProps, ILogger logger)
         {
             _flightQuery = flightQuery;
             _mediator = mediator;
@@ -47,7 +46,7 @@ namespace AirStatusesAPI.Controllers
 
             var flights = await _flightQuery.GetFlightsAsync();
 
-            _logger.Information("Retrieved all flights");
+            _logger.Information($"Retrieved all flights: {flights.Count}");
             return Ok(flights);
         }
 
@@ -78,7 +77,7 @@ namespace AirStatusesAPI.Controllers
         /// Создает новый рейс.
         /// </summary>
         /// <param name="command">Команда создания рейса.</param>
-        /// <returns>Возвращает CreatedAtAction, если рейс успешно создан, или Unauthorized, если пользователь не авторизован.</returns>
+        /// <returns>Возвращает Status200OK, если рейс успешно создан, или Unauthorized, если пользователь не авторизован.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -88,7 +87,7 @@ namespace AirStatusesAPI.Controllers
             _logger.Information("Creating a new flight");
 
             var userDto = await _userProps.GetUserPropsAsync();
-            if (userDto != null && _userProps.IsWriter(userDto))
+            if (userDto != null && _userProps.IsWriter(userDto) || _userProps.IsAdmin(userDto))
             {
                 var newFlightId = await _mediator.Send(command);
                 _logger.Information("Created a new flight with ID: {FlightId}", newFlightId);
@@ -115,7 +114,7 @@ namespace AirStatusesAPI.Controllers
             _logger.Information("Updating flight with ID: {FlightId}", flightId);
             var userDto = await _userProps.GetUserPropsAsync();
 
-            if (userDto != null && _userProps.IsWriter(userDto))
+            if (userDto != null && _userProps.IsWriter(userDto) || _userProps.IsAdmin(userDto))
             {
                 var updatedFlight = await _mediator.Send(command);
                 if (updatedFlight == null)
