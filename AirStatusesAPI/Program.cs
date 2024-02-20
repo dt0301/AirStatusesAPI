@@ -55,7 +55,6 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-//builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddUserDataService();
 builder.Services.AddScoped<ICache, RedisCache>();
