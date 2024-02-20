@@ -81,6 +81,7 @@ namespace AirStatusesAPI.Extensions
         /// </summary>
         /// <param name="s">Символ для проверки.</param>
         /// <returns>Возвращает true, если символ является кириллицей, иначе false.</returns>
+        private static readonly Regex regexCyrlics = new Regex(@"\p{IsCyrillic}");
         public static bool IsCyrylic(this char s)
         {
             return regexCyrlics.IsMatch(s.ToString());
@@ -91,6 +92,7 @@ namespace AirStatusesAPI.Extensions
         /// </summary>
         /// <param name="input">Входная строка для проверки.</param>
         /// <returns>Возвращает true, если входная строка является адресом электронной почты, иначе false.</returns>
+        private static readonly Regex regexMail = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
         public static bool IsMail(this string input)
         {
             return regexMail.IsMatch(input);
