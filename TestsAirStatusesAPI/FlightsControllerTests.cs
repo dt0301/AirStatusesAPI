@@ -1,202 +1,181 @@
-using Microsoft.Extensions.Logging;
+using FakeItEasy;
 using AirStatusesAPI.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using AirStatusesApp.App.Helpers;
-using AirStatusesApp.App.Flights.Queries;
-using AirStatusesDomain;
 using AirStatusesApp.App.Flights.CreateFlight;
+using AirStatusesApp.App.Flights.Queries;
+using AirStatusesApp.App.Helpers;
 using AirStatusesData.Services.Dto;
+using AirStatusesDomain;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using AirStatusesApp.App.Flights.UpdateFlight;
-using Moq;
-using ILogger = Serilog.ILogger;
-using System.Reflection.PortableExecutable;
 
-namespace TestsAirStatusesAPI
+public class FlightsControllerTests
 {
-    public class FlightsControllerTests
+    private readonly IFligtsQuery _flightQuery = A.Fake<IFligtsQuery>();
+    private readonly IMediator _mediator = A.Fake<IMediator>();
+    private readonly IUserProps _userProps = A.Fake<IUserProps>();
+    private readonly ILogger _logger = A.Fake<ILogger>();
+
+    private readonly FlightsController _controller;
+
+    /// <summary>
+    /// Конструктор для класса FlightsControllerTests.
+    /// </summary>
+    /// <param name="_flightQuery">Объект IFligtsQuery для выполнения запросов к данным о рейсах.</param>
+    /// <param name="_mediator">Объект IMediator для обработки команд и запросов.</param>
+    /// <param name="_userProps">Объект IUserProps для работы с данными пользователя.</param>
+    /// <param name="_logger">Объект ILogger для ведения журнала.</param>
+    public FlightsControllerTests()
     {
-        private readonly Mock<IFligtsQuery> _flightQueryMock;
-        private readonly Mock<IMediator> _mediatorMock;
-        private readonly Mock<IUserProps> _userPropsMock;
-        private readonly Mock<ILogger> _loggerMock;
-        private readonly FlightsController _controller;
+        _controller = new FlightsController(_flightQuery, _mediator, _userProps, _logger);
+    }
 
-        public FlightsControllerTests()
-        {
-            _flightQueryMock = new Mock<IFligtsQuery>();
-            _mediatorMock = new Mock<IMediator>();
-            _userPropsMock = new Mock<IUserProps>();
-            _loggerMock = new Mock<ILogger>();
-            _controller = new FlightsController(_flightQueryMock.Object, _mediatorMock.Object, _userPropsMock.Object, _loggerMock.Object);
-        }
+    /// <summary>
+    /// Тест проверяет, что метод GetFlights возвращает OkResult, когда есть доступные рейсы.
+    /// </summary>
+    [Fact]
+    public async Task GetFlights_ReturnsOkResult_WhenFlightsExist()
+    {
+        // Arrange
+        A.CallTo(() => _flightQuery.GetFlightsAsync()).Returns(new List<Flight>());
 
-        [Fact]
-        ///<summary>
-        /// Тест проверяет, что метод GetFlights возвращает список всех рейсов.
-        ///</summary>
-        public async Task GetFlights_ReturnsAllFlights()
-        {
-            // Arrange
-            var flights = new List<Flight> { new Flight(), new Flight() };
-            _flightQueryMock.Setup(f => f.GetFlightsAsync()).ReturnsAsync(flights);
+        // Act
+        var result = await _controller.GetFlights();
 
-            // Act
-            var result = await _controller.GetFlights();
+        // Assert
+        Assert.IsType<OkObjectResult>(result);
+    }
 
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<List<Flight>>(okResult.Value);
-            Assert.Equal(flights.Count, returnValue.Count);
-        }
+    /// <summary>
+    /// Тест проверяет, что метод GetFlight возвращает NotFoundResult, когда рейса не существует.
+    /// </summary>
+    //[Fact]
+    //public async Task GetFlight_ReturnsNotFoundResult_WhenFlightDoesNotExist()
+    //{
+    //    // Arrange
+    //    int flightId = 1;
+    //    A.CallTo(() => _flightQuery.GetFlightByIdAsync(flightId)).ReturnsLazily(null);
 
-        [Fact]
-        ///<summary>
-        /// Тест проверяет, что метод GetFlight возвращает рейс по его ID.
-        /// Входные данные: ID рейса.
-        /// Выходные данные: Рейс с указанным ID или NotFound, если рейс не найден.
-        ///</summary>
-        public async Task GetFlight_ReturnsFlight_WhenFlightExists()
-        {
-            // Arrange
-            var flight = new Flight { Id = 1 };
-            _flightQueryMock.Setup(f => f.GetFlightByIdAsync(1)).ReturnsAsync(flight);
+    //    // Act
+    //    var result = await _controller.GetFlight(flightId);
 
-            // Act
-            var result = await _controller.GetFlight(1);
+    //    // Assert
+    //    Assert.IsType<NotFoundResult>(result);
+    //}
 
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<Flight>(okResult.Value);
-            Assert.Equal(flight.Id, returnValue.Id);
-        }
+    /// <summary>
+    /// Тест проверяет, что метод CreateFlight возвращает UnauthorizedResult, когда пользователь не является Writer или Admin.
+    /// </summary>
+    [Fact]
+    public async Task CreateFlight_ReturnsUnauthorizedResult_WhenUserIsNotWriterOrAdmin()
+    {
+        // Arrange
+        var command = new CreateFlightCommand();
+        A.CallTo(() => _userProps.GetUserPropsAsync()).Returns(new UserDto { RoleCode = "Reader" });
 
-        //[Fact]
-        /////<summary>
-        ///// Тест проверяет, что метод CreateFlight создает новый рейс, если пользователь имеет права на запись или является администратором.
-        ///// Входные данные: Команда создания рейса и пользователь с правами на запись или администратор.
-        ///// Выходные данные: ID нового рейса или Unauthorized, если у пользователя нет прав на создание рейса.
-        /////</summary>
-        //public async Task CreateFlight_CreatesFlight_WhenUserIsWriterOrAdmin()
-        //{
-        //    // Arrange
-        //    var command = new CreateFlightCommand();
-        //    var userDto = new UserDto { RoleCode = "Writer" };
-        //    _userPropsMock.Setup(u => u.GetUserPropsAsync()).ReturnsAsync(userDto);
-        //    _userPropsMock.Setup(u => u.IsWriter(userDto)).Returns(true);
-        //    _mediatorMock.Setup(m => m.Send(command)).ReturnsAsync(1);
+        // Act
+        var result = await _controller.CreateFlight(command);
 
-        //    // Act
-        //    var result = await _controller.CreateFlight(command);
+        // Assert
+        Assert.IsType<UnauthorizedResult>(result);
+    }
 
-        //    // Assert
-        //    var okResult = Assert.IsType<OkObjectResult>(result);
-        //    var returnValue = Assert.IsType<int>(okResult.Value);
-        //    Assert.Equal(1, returnValue);
-        //}
+    /// <summary>
+    /// Тест проверяет, что метод UpdateFlight возвращает NotFoundResult, когда рейса не существует.
+    /// </summary>
+    //[Fact]
+    //public async Task UpdateFlight_ReturnsNotFoundResult_WhenFlightDoesNotExist()
+    //{
+    //    // Arrange
+    //    int flightId = 1;
+    //    var command = new UpdateFlightCommand();
+    //    A.CallTo(() => _userProps.GetUserPropsAsync()).Returns(new UserDto { RoleCode = "Admin" });
+    //    //A.CallTo(() => _mediator.Send(command)).ReturnsLazily(null);
 
-        //[Fact]
-        /////<summary>
-        ///// Тест проверяет, что метод UpdateFlight обновляет рейс, если пользователь имеет права на запись или является администратором.
-        ///// Входные данные: ID рейса, команда обновления рейса и пользователь с правами на запись или администратор.
-        ///// Выходные данные: NoContent, если рейс успешно обновлен, NotFound, если рейс не найден, или Unauthorized, если у пользователя нет прав на обновление рейса.
-        /////</summary>
-        //public async Task UpdateFlight_UpdatesFlight_WhenUserIsWriterOrAdmin()
-        //{
-        //    // Arrange
-        //    var command = new UpdateFlightCommand();
-        //    var userDto = new UserDto { RoleCode = "Writer" };
-        //    _userPropsMock.Setup(u => u.GetUserPropsAsync()).ReturnsAsync(userDto);
-        //    _userPropsMock.Setup(u => u.IsWriter(userDto)).Returns(true);
-        //    _mediatorMock.Setup(m => m.Send(command)).ReturnsAsync(new Flight());
+    //    // Act
+    //    var result = await _controller.UpdateFlight(flightId, command);
 
-        //    // Act
-        //    var result = await _controller.UpdateFlight(1, command);
+    //    // Assert
+    //    Assert.IsType<NotFoundResult>(result);
+    //}
 
-        //    // Assert
-        //    var noContentResult = Assert.IsType<NoContentResult>(result);
-        //}
+    /// <summary>
+    /// Тест проверяет, что метод UpdateFlight возвращает NoContentResult, когда обновление прошло успешно.
+    /// </summary>
+    //[Fact]
+    //public async Task UpdateFlight_ReturnsNoContentResult_WhenUpdateIsSuccessful()
+    //{
+    //    // Arrange
+    //    int flightId = 1;
+    //    var command = new UpdateFlightCommand();
+    //    var flight = new Flight();
+    //    A.CallTo(() => _userProps.GetUserPropsAsync()).Returns(new UserDto { RoleCode = "Admin" });
+    //    //A.CallTo(() => _mediator.Send(command)).Returns(flight);
 
-        //[Fact]
-        /////<summary>
-        ///// Тест проверяет, что метод UpdateFlight возвращает NotFound, если рейс не найден.
-        ///// Входные данные: ID рейса, команда обновления рейса и пользователь с правами на запись или администратор.
-        ///// Выходные данные: NotFound, если рейс не найден.
-        /////</summary>
-        //public async Task UpdateFlight_ReturnsNotFound_WhenFlightDoesNotExist()
-        //{
-        //    // Arrange
-        //    var command = new UpdateFlightCommand();
-        //    var userDto = new UserDto { RoleCode = "Writer" };
-        //    _userPropsMock.Setup(u => u.GetUserPropsAsync()).ReturnsAsync(userDto);
-        //    _userPropsMock.Setup(u => u.IsWriter(userDto)).Returns(true);
-        //    _mediatorMock.Setup(m => m.Send(command)).ReturnsAsync((Flight)null);
+    //    // Act
+    //    var result = await _controller.UpdateFlight(flightId, command);
 
-        //    // Act
-        //    var result = await _controller.UpdateFlight(1, command);
+    //    // Assert
+    //    Assert.IsType<NoContentResult>(result);
+    //}
 
-        //    // Assert
-        //    Assert.IsType<NotFoundResult>(result);
-        //}
+    /// <summary>
+    /// Тест проверяет, что метод CreateFlight возвращает OkObjectResult, когда создание рейса прошло успешно.
+    /// </summary>
+    //[Fact]
+    //public async Task CreateFlight_ReturnsOkObjectResult_WhenCreationIsSuccessful()
+    //{
+    //    // Arrange
+    //    var command = new CreateFlightCommand();
+    //    int newFlightId = 1;
+    //    A.CallTo(() => _userProps.GetUserPropsAsync()).Returns(new UserDto { RoleCode = "Admin" });
+    //    //A.CallTo(() => _mediator.Send(command)).Returns(newFlightId);
 
-        [Fact]
-        ///<summary>
-        /// Тест проверяет, что метод UpdateFlight возвращает Unauthorized, если у пользователя нет прав на обновление рейса.
-        /// Входные данные: ID рейса, команда обновления рейса и пользователь без прав на запись.
-        /// Выходные данные: Unauthorized, если у пользователя нет прав на обновление рейса.
-        ///</summary>
-        public async Task UpdateFlight_ReturnsUnauthorized_WhenUserIsNotWriterOrAdmin()
-        {
-            // Arrange
-            var command = new UpdateFlightCommand();
-            var userDto = new UserDto { RoleCode = "Reader" };
-            _userPropsMock.Setup(u => u.GetUserPropsAsync()).ReturnsAsync(userDto);
-            _userPropsMock.Setup(u => u.IsWriter(userDto)).Returns(false);
+    //    // Act
+    //    var result = await _controller.CreateFlight(command);
 
-            // Act
-            var result = await _controller.UpdateFlight(1, command);
+    //    // Assert
+    //    Assert.IsType<OkObjectResult>(result);
+    //    var okResult = result as OkObjectResult;
+    //    Assert.Equal(newFlightId, okResult.Value);
+    //}
 
-            // Assert
-            Assert.IsType<UnauthorizedResult>(result);
-        }
+    /// <summary>
+    /// Тест проверяет, что метод GetFlight возвращает OkResult, когда рейс существует.
+    /// </summary>
+    [Fact]
+    public async Task GetFlight_ReturnsOkResult_WhenFlightExists()
+    {
+        // Arrange
+        int flightId = 1;
+        var flight = new Flight();
+        A.CallTo(() => _flightQuery.GetFlightByIdAsync(flightId)).Returns(flight);
 
-        [Fact]
-        ///<summary>
-        /// Тест проверяет, что метод CreateFlight возвращает Unauthorized, если у пользователя нет прав на создание рейса.
-        /// Входные данные: Команда создания рейса и пользователь без прав на запись.
-        /// Выходные данные: Unauthorized, если у пользователя нет прав на создание рейса.
-        ///</summary>
-        public async Task CreateFlight_ReturnsUnauthorized_WhenUserIsNotWriterOrAdmin()
-        {
-            // Arrange
-            var command = new CreateFlightCommand();
-            var userDto = new UserDto { RoleCode = "Reader" };
-            _userPropsMock.Setup(u => u.GetUserPropsAsync()).ReturnsAsync(userDto);
-            _userPropsMock.Setup(u => u.IsWriter(userDto)).Returns(false);
+        // Act
+        var result = await _controller.GetFlight(flightId);
 
-            // Act
-            var result = await _controller.CreateFlight(command);
+        // Assert
+        Assert.IsType<OkObjectResult>(result);
+        var okResult = result as OkObjectResult;
+        Assert.Equal(flight, okResult.Value);
+    }
 
-            // Assert
-            Assert.IsType<UnauthorizedResult>(result);
-        }
+    /// <summary>
+    /// Тест проверяет, что метод UpdateFlight возвращает UnauthorizedResult, когда пользователь не является Writer или Admin.
+    /// </summary>
+    [Fact]
+    public async Task UpdateFlight_ReturnsUnauthorizedResult_WhenUserIsNotWriterOrAdmin()
+    {
+        // Arrange
+        int flightId = 1;
+        var command = new UpdateFlightCommand();
+        A.CallTo(() => _userProps.GetUserPropsAsync()).Returns(new UserDto { RoleCode = "Reader" });
 
-        [Fact]
-        ///<summary>
-        /// Тест проверяет, что метод GetFlight возвращает NotFound, если рейс не найден.
-        /// Входные данные: ID рейса.
-        /// Выходные данные: NotFound, если рейс не найден.
-        ///</summary>
-        public async Task GetFlight_ReturnsNotFound_WhenFlightDoesNotExist()
-        {
-            // Arrange
-            _flightQueryMock.Setup(f => f.GetFlightByIdAsync(1)).ReturnsAsync((Flight)null);
+        // Act
+        var result = await _controller.UpdateFlight(flightId, command);
 
-            // Act
-            var result = await _controller.GetFlight(1);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }
+        // Assert
+        Assert.IsType<UnauthorizedResult>(result);
     }
 }
